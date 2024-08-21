@@ -1,6 +1,6 @@
 import reactangle from "../images/reactangle.png";
 
-const WeatherItem = ({ city }) => {
+const WeatherItem = ({ weather }) => {
 
 
 	return (
@@ -14,27 +14,27 @@ const WeatherItem = ({ city }) => {
 		>
 			<div className="w-1/2 flex flex-col gap-2">
 				<h2 className="font-bold text-white text-5xl">
-					{city?.current?.temp_c}
+					{weather?.current?.temp_c}
 				</h2>
 
-				<p className="flex  gap-4">
+				<p className="flex text-gray-300 gap-4">
 					<span>H:24</span>
 					<span>L:14</span>
 				</p>
 				<p className="mb-0  text-white">
-					{city?.location?.name}, {city?.location?.country}
+					{weather?.location?.name}, {weather?.location?.country}
 				</p>
 				<p className="mb-0 text-sm text-gray-300">
-					UV : {city?.current?.uv}
+					UV : {weather?.current?.uv}
 				</p>
 				<p className="mb-0 text-sm text-gray-300">
-					co : {city?.current?.uv}
+					co : {weather?.current?.uv}
 				</p>
 			</div>
 			<div className="flex flex-col items-center">
-				{<img src={city.statusImage} className="w-34 h-34" alt="house" />}
-				<p className="mb-0 font-bold">
-					{city?.current?.condition?.text}({city?.current?.cloud}%)
+				{<img src={weather.statusImage} className="w-34 h-34" alt="house" />}
+				<p className="mb-0 font-bold text-gray-300">
+					{weather?.current?.condition?.text}({weather?.current?.cloud}%)
 				</p>
 			</div>
 		</div>
