@@ -28,7 +28,7 @@ const Weathers = () => {
   }, [citiesItems]);
   const showData2 = useCallback(()=>{
     showData();
-  },[citiesItems])
+  })
   const showData = () => {
     const arr = [];
     if (citiesItems.length > 20) citiesItems.splice(20);
