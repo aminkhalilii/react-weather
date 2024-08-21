@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import WeatherItem from "../components/WeatherItem";
 import { cities } from "../data/cities";
 import sunny from "../images/Sun cloud angled rain.svg";
@@ -24,8 +24,11 @@ const Weathers = () => {
   // };
 
   useEffect(() => {
-    showData();
+    showData2()
   }, [citiesItems]);
+  const showData2 = useCallback(()=>{
+    showData();
+  },[citiesItems])
   const showData = () => {
     const arr = [];
     if (citiesItems.length > 20) citiesItems.splice(20);

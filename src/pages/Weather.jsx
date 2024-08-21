@@ -39,7 +39,7 @@ const Weather = () => {
       }
     };
     getData();
-  }, []);
+  }, [city]);
   return (
     <div
       className="hero min-h-screen"
