@@ -32,9 +32,7 @@ jobs:
         VPS_PATH: ${{ vars.VPS_PATH }}
       run: |
         sudo echo "VPS Host: $VPS_HOST"
-        sudo echo "Home: "
-        sudo echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
-        sudo chmod 777 -R /root/.ssh
-        sudo echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa
+        sudo echo "Home: " > /home/amin2/1.txt
+       
         
 
