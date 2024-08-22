@@ -37,5 +37,5 @@ jobs:
         mkdir -p $HOME/.ssh
         echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
         chmod 600 $HOME/.ssh/id_rsa
-        ssh-keyscan -P 49150 -H "$VPS_HOST" >> $HOME/.ssh/known_hosts
+        ssh-keyscan -p 49150 -H "$VPS_HOST" >> $HOME/.ssh/known_hosts
         rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
