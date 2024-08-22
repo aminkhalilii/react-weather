@@ -33,6 +33,6 @@ jobs:
       run: |
         sudo echo "VPS Host: $VPS_HOST"
         sudo echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
-        sudo ssh-keyscan  -H "$VPS_HOST" >> ~/.ssh/known_hosts
+        sudo ssh-keyscan -p 49150 185.88.154.215 >> ~/.ssh/known_hosts
         sudo rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
 
