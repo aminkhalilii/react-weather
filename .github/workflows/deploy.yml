@@ -27,12 +27,12 @@ jobs:
     - name: Deploy to VPS
       env:
         SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
-        SSH_HOST2: ${{ vars.VPS_HOST }}
-        VPS_HOST: 185.88.154.215
-        VPS_USER: root
-        VPS_PATH: /home/aminkhalili/public_html/weather.aminkhalili.ir/
+        VPS_HOST: ${{ vars.VPS_HOST }}
+        VPS_USER: ${{ vars.VPS_USER }}
+        VPS_PATH: ${{ vars.VPS_PATH }}
       run: |
-        echo "VPS Host: $SSH_HOST2"
+        echo "VPS Host: $VPS_HOST"
+        ssh-keyscan -p 49150 -H "$VPS_HOST" >> ~/.ssh/known_hosts
         rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
 
 # mkdir -p $HOME/.ssh
