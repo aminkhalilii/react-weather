@@ -33,6 +33,7 @@ jobs:
       run: |
         sudo echo "VPS Host: $VPS_HOST"
         sudo echo "Home: $HOME"
+        sudo echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
         sudo mkdir -p $HOME/.ssh
         sudo chmod 700 $HOME/.ssh
         sudo echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
