@@ -32,6 +32,7 @@ jobs:
         VPS_PATH: ${{ vars.VPS_PATH }}
       run: |
         sudo echo "VPS Host: $VPS_HOST"
+        sudo echo "Home: $HOME"
         sudo mkdir -p $HOME/.ssh
         sudo chmod 700 $HOME/.ssh
         sudo echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
