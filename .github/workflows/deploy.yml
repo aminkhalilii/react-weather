@@ -32,8 +32,7 @@ jobs:
         VPS_USER: root
         VPS_PATH: /home/aminkhalili/public_html/weather.aminkhalili.ir/
       run: |
-        echo "VPS Host: $VPS_HOST"
-        ssh-keyscan -p 49150 -H "$VPS_HOST" >> ~/.ssh/known_hosts
+        echo "VPS Host: $SSH_HOST2"
         rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
 
 # mkdir -p $HOME/.ssh
