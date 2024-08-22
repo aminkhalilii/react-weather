@@ -13,13 +13,7 @@ const Weathers = () => {
 		// [{ city: "Tehran" }, { city: "Karaj" }]
 	);
 
-	useEffect(() => {
-		showData2();
-	}, [showData2]);
-	const showData2 = useCallback(() => {
-		showData();
-	}, [citiesItems,showData]);
-	const showData = () => {
+	const showData = useCallback(() => {
 		const arr = [];
 		if (citiesItems.length > 20) citiesItems.splice(20);
 		citiesItems.map(async (city) => {
@@ -27,7 +21,12 @@ const Weathers = () => {
 			if (data?.current) arr.push(data);
 			setWeathersData(arr);
 		});
-	};
+	}, [citiesItems, setWeathersData]);
+
+	useEffect(() => {
+		showData();
+	}, [showData]);
+
 	const getData = async (city) => {
 		try {
 			const res = await fetch(
