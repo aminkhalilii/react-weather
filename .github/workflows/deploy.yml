@@ -38,6 +38,5 @@ jobs:
         sudo chmod 700 ~/.ssh
         sudo echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         sudo chmod 600 ~/.ssh/id_rsa
-        sudo ssh-keyscan -p 49150 -H "$VPS_HOST" >> ~/.ssh/known_hosts
         sudo rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
 
