@@ -15,10 +15,10 @@ const Weathers = () => {
 
 	useEffect(() => {
 		showData2();
-	}, []);
+	}, [showData2]);
 	const showData2 = useCallback(() => {
 		showData();
-	}, [citiesItems,weathersData]);
+	}, [citiesItems,showData]);
 	const showData = () => {
 		const arr = [];
 		if (citiesItems.length > 20) citiesItems.splice(20);
