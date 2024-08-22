@@ -32,7 +32,5 @@ jobs:
         VPS_PATH: ${{ vars.VPS_PATH }}
       run: |
         sudo echo "VPS Host: $VPS_HOST"
-        sudo echo "Home: " > /home/amin2/1.txt
+        sudo echo "Home: $HOME"
        
-        
-
