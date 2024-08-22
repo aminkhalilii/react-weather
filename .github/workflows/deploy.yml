@@ -30,24 +30,13 @@ jobs:
         VPS_HOST: ${{ vars.VPS_HOST }}
         VPS_USER: ${{ vars.VPS_USER }}
         VPS_PATH: ${{ vars.VPS_PATH }}
-        VPS_PORT: 49150
       run: |
-        ls -ld /home/runner
-        ls -ld /home/runner/.ssh || echo "/home/runner/.ssh does not exist"
-
-        mkdir -p /home/runner/.ssh
-        chmod 700 /home/runner/.ssh
-
-        ls -ld /home/runner/.ssh
-
-        echo "$SSH_PRIVATE_KEY" | tr -d '\r' > /home/runner/.ssh/id_rsa
-        chmod 600 /home/runner/.ssh/id_rsa
-
-        ls -l /home/runner/.ssh/id_rsa
-
-        touch /home/runner/.ssh/known_hosts
-        chmod 644 /home/runner/.ssh/known_hosts
-
-        ssh-keyscan -p $VPS_PORT -H "$VPS_HOST" >> /home/runner/.ssh/known_hosts
-
-        rsync -avz --delete -e "ssh -p $VPS_PORT" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
+        sudo echo "VPS Host: $VPS_HOST"
+        sudo echo "Home: $HOME"
+        sudo echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
+        sudo mkdir -p $HOME/.ssh
+        sudo echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+        sudo cat $HOME/.ssh/id_rsa
+        sudo chmod 600 $HOME/.ssh/id_rsa
+        sudo ssh-keyscan -P 49150 -H "$VPS_HOST" >> /root/.ssh/known_hosts
+        sudo rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
