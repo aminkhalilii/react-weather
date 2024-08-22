@@ -32,5 +32,5 @@ jobs:
         VPS_PATH: ${{ vars.VPS_PATH }}
       run: |
         sudo echo "VPS Host: $VPS_HOST"
-        sudo ssh-keyscan -p 49150 185.88.154.215 >> ~/.ssh/known_hosts
+        sudo ssh-keyscan -p 49150 185.88.154.215 >> /root/.ssh/known_hosts
 
