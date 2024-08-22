@@ -36,6 +36,5 @@ jobs:
         sudo echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
         sudo chmod 777 -R /root/.ssh
         sudo echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa
-        sudo chmod 777 /root/.ssh/id_rsa
-        sudo ssh-keyscan -p 49150 -H "$VPS_HOST" >> /root/.ssh/known_hosts
+        
 
