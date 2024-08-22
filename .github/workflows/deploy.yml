@@ -31,11 +31,5 @@ jobs:
         VPS_USER: ${{ vars.VPS_USER }}
         VPS_PATH: ${{ vars.VPS_PATH }}
       run: |
-        sudo echo "VPS Host: $VPS_HOST"
-        sudo echo "Home: $HOME"
-        sudo echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
-        mkdir -p $HOME/.ssh
-        echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
-        chmod 600 $HOME/.ssh/id_rsa
-        ssh-keyscan -p 49150 -H "$VPS_HOST" >> $HOME/.ssh/known_hosts
-        rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
+        ls -l /home/runner/.ssh/id_rsa
+        cat /home/runner/.ssh/id_rsa
