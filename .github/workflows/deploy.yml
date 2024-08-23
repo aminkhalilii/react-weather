@@ -30,15 +30,38 @@ jobs:
         VPS_HOST: ${{ vars.VPS_HOST }}
         VPS_USER: ${{ vars.VPS_USER }}
         VPS_PATH: ${{ vars.VPS_PATH }}
+        VPS_PORT: 49150
       run: |
-        sudo echo "VPS Host: $VPS_HOST"
-        sudo echo "Home: $HOME"
-        sudo echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
+        # Debug: Print environment variables
+        echo "VPS_HOST: $VPS_HOST"
+        echo "VPS_USER: $VPS_USER"
+        echo "VPS_PATH: $VPS_PATH"
+        echo "VPS_PORT: $VPS_PORT"
+
+        # Debug: Check existing permissions and directories
+        echo "Existing files and permissions:"
+        ls -la $HOME/.ssh || echo "No .ssh directory"
+
+        # Ensure the .ssh directory exists and has correct permissions
         mkdir -p $HOME/.ssh
         chmod 700 $HOME/.ssh
-        echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+
+        # Write the SSH private key to a file
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' > $HOME/.ssh/id_rsa
         chmod 600 $HOME/.ssh/id_rsa
-        touch $HOME/.ssh/known_hosts
-        chmod 644 $HOME/.ssh/known_hosts
-        ssh-keyscan -p 49150 -H "$VPS_HOST" >> $HOME/.ssh/known_hosts
-        rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
+
+        # Debug: Check the content of id_rsa and known_hosts
+        echo "SSH Private Key Content:"
+        cat $HOME/.ssh/id_rsa
+        echo "Known Hosts:"
+        cat $HOME/.ssh/known_hosts
+
+        # Add the VPS host to known_hosts
+        ssh-keyscan -p $VPS_PORT -H "$VPS_HOST" >> $HOME/.ssh/known_hosts
+
+        # Debug: Check if ssh-keyscan worked
+        echo "Known Hosts After ssh-keyscan:"
+        cat $HOME/.ssh/known_hosts
+
+        # Sync files with rsync
+        rsync -avz --delete -e "ssh -p $VPS_PORT" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
