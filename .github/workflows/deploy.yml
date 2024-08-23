@@ -38,25 +38,25 @@ jobs:
         echo "VPS_PATH: $VPS_PATH"
         echo "VPS_PORT: $VPS_PORT"
 
-        # Debug: Check existing permissions and directories
-        echo "Existing files and permissions:"
-        ls -la $HOME/.ssh || echo "No .ssh directory"
-
         # Ensure the .ssh directory exists and has correct permissions
+        echo "Creating .ssh directory..."
         mkdir -p $HOME/.ssh
         chmod 700 $HOME/.ssh
+
+        # Debug: Check existing permissions and directories after creation
+        echo "Files and permissions after creating .ssh:"
+        ls -la $HOME/.ssh
 
         # Write the SSH private key to a file
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' > $HOME/.ssh/id_rsa
         chmod 600 $HOME/.ssh/id_rsa
 
-        # Debug: Check the content of id_rsa and known_hosts
+        # Debug: Check the content of id_rsa
         echo "SSH Private Key Content:"
-        cat $HOME/.ssh/id_rsa
-        echo "Known Hosts:"
-        cat $HOME/.ssh/known_hosts
+        cat $HOME/.ssh/id_rsa || echo "Failed to read SSH private key file"
 
         # Add the VPS host to known_hosts
+        touch $HOME/.ssh/known_hosts
         ssh-keyscan -p $VPS_PORT -H "$VPS_HOST" >> $HOME/.ssh/known_hosts
 
         # Debug: Check if ssh-keyscan worked
