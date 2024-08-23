@@ -24,11 +24,6 @@ jobs:
     - name: Build React App
       run: npm run build
 
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.1
-      with:
-        ssh-private-key: ${{ vars.SSH_PRIVATE_KEY }}
-
     - name: Deploy to VPS
       env:
         SSH_PRIVATE_KEY: ${{ vars.SSH_PRIVATE_KEY }}
@@ -39,4 +34,11 @@ jobs:
         sudo echo "VPS Host: $VPS_HOST"
         sudo echo "Home: $HOME"
         sudo echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
-        ssh -o StrictHostKeyChecking=no $VPS_PATH@$VPS_HOST "cd $VPS_PATH && git pull && ./deploy.sh"
+        mkdir -p $HOME/.ssh
+        chmod 700 $HOME/.ssh
+        echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+        chmod 600 $HOME/.ssh/id_rsa
+        touch $HOME/.ssh/known_hosts
+        chmod 644 $HOME/.ssh/known_hosts
+        ssh-keyscan -p 49150 -H "$VPS_HOST" >> $HOME/.ssh/known_hosts
+        rsync -avz --delete -e "ssh -p 49150" ./build/ $VPS_USER@$VPS_HOST:$VPS_PATH
