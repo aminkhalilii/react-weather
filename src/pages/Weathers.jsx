@@ -1,17 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import WeatherItem from "../components/WeatherItem";
 import { cities } from "../data/cities";
-import sunny from "../images/Sun cloud angled rain.svg";
-import partlyCloud from "../images/Moon cloud fast wind.svg";
-import overcast from "../images/Moon cloud fast wind.svg";
+
 import { Link } from "react-router-dom";
+import { WeatherContext } from "../contexts/WeatherContext";
 const Weathers = () => {
 	const [weathersData, setWeathersData] = useState([]);
-	const [loading, setLoading] = useState(true);
 	const [citiesItems, setCities] = useState(
 		cities.filter((c) => c.country === "Iran").slice(0, 10)
-		// [{ city: "Tehran" }, { city: "Karaj" }]
 	);
+
+	const {getData,loading} = useContext(WeatherContext)
 
 	const showData = useCallback(() => {
 		const arr = [];
@@ -21,45 +20,14 @@ const Weathers = () => {
 			if (data?.current) arr.push(data);
 			setWeathersData(arr);
 		});
-	}, [citiesItems, setWeathersData]);
+	}, [citiesItems, setWeathersData,getData]);
 
+	// useLayoutEffect(() => {
 	useEffect(() => {
 		showData();
 	}, [showData]);
 
-	const getData = async (city) => {
-		try {
-			const res = await fetch(
-				`https://api.weatherapi.com/v1/current.json?key=ba1e4f43792f443397870110242008&q=${city}&aqi=yes`
-			);
-			const data = await res.json();
-			let statusImage = "";
-			switch (data?.current?.condition?.text) {
-				case "Sunny":
-					statusImage = sunny;
-					break;
-				case "Partly cloudy":
-					statusImage = partlyCloud;
-					break;
-				case "Overcast":
-					statusImage = overcast;
-					break;
-
-				default:
-					statusImage = data?.current?.condition?.icon;
-					break;
-			}
-			data.statusImage = statusImage;
-			setLoading(false);
-
-			return data;
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-
-			return;
-		}
-	};
+	
 	const search = (e) => {
 		const value = e.target.value.toLowerCase();
 		setTimeout(() => {}, 1000);
@@ -102,7 +70,7 @@ const Weathers = () => {
 			{!loading &&
 				weathersData?.map((weather, index) => (
 					<Link className="w-full" to={`/weather/${weather?.location?.name}`}>
-						<WeatherItem weather={weather} key={index} />
+						<WeatherItem  weather={weather} key={index} />
 					</Link>
 				))}
 		</div>
