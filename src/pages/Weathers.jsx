@@ -6,11 +6,12 @@ import { Link } from "react-router-dom";
 import { WeatherContext } from "../contexts/WeatherContext";
 const Weathers = () => {
 	const [weathersData, setWeathersData] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const [citiesItems, setCities] = useState(
 		cities.filter((c) => c.country === "Iran").slice(0, 10)
 	);
 
-	const {getData,loading} = useContext(WeatherContext)
+	const {getData} = useContext(WeatherContext)
 
 	const showData = useCallback(() => {
 		const arr = [];
@@ -19,6 +20,7 @@ const Weathers = () => {
 			let data = await getData(city.city);
 			if (data?.current) arr.push(data);
 			setWeathersData(arr);
+			setLoading(false);
 		});
 	}, [citiesItems, setWeathersData,getData]);
 

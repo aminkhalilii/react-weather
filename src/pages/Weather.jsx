@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import { WeatherContext } from "../contexts/WeatherContext";
 const Weather = () => {
 	const [weather, setWeather] = useState(null);
-	const { getData, loading } = useContext(WeatherContext);
+	const [loading, setLoading] = useState(true);
+
+	const { getData } = useContext(WeatherContext);
 
 	const { city } = useParams();
 	const showData = useCallback(async () => {
@@ -14,6 +16,7 @@ const Weather = () => {
 	useEffect(() => {
 		
 		showData();
+		setLoading(false);
 
 	}, [city, showData]);
 	return (
